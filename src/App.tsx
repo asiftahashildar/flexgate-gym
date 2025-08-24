@@ -13,6 +13,7 @@ import { AddMember } from '@/pages/AddMember';
 import { Members } from '@/pages/Members';
 import { Plans } from '@/pages/Plans';
 import { Settings } from '@/pages/Settings';
+import { EditMember } from '@/pages/EditMember';
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => (
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/add-member" element={<AddMember />} />
                   <Route path="/members" element={<Members />} />
+                  <Route path="/members/edit/:id" element={<EditMember />} />
                   <Route path="/plans" element={<Plans />} />
                   <Route path="/settings" element={<Settings />} />
                   <Route path="*" element={<NotFound />} />

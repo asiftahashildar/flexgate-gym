@@ -3,17 +3,19 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import membersReducer from './slices/membersSlice';
 import plansReducer from './slices/plansSlice';
+import settingsReducer from './slices/settingsSlice';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const persistConfig = {
   key: 'gym-registration',
   storage,
-  whitelist: ['members', 'plans'], // Persist these slices
+  whitelist: ['members', 'plans', 'settings'], // Persist these slices
 };
 
 const rootReducer = combineReducers({
   members: membersReducer,
   plans: plansReducer,
+  settings: settingsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

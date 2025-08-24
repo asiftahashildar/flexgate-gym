@@ -222,6 +222,7 @@ export const Members: React.FC = () => {
                     variant="ghost"
                     className="p-2 hover:bg-muted"
                     title="Edit Member"
+                    onClick={() => navigate(`/members/edit/${member.id}`)}
                   >
                     <Edit className="w-4 h-4" />
                   </Button>

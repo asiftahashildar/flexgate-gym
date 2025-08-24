@@ -14,29 +14,19 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { useAppSelector, useAppDispatch } from '@/hooks/redux';
+import { updateSettings } from '@/store/slices/settingsSlice';
 import { toast } from '@/hooks/use-toast';
 
 export const Settings: React.FC = () => {
+  const dispatch = useAppDispatch();
   const members = useAppSelector((state) => state.members.members);
   const plans = useAppSelector((state) => state.plans.plans);
+  const savedSettings = useAppSelector((state) => state.settings.settings);
 
-  const [gymSettings, setGymSettings] = React.useState({
-    gymName: 'FitGym Pro',
-    address: '123 Fitness Street, Workout City',
-    phone: '+1 (555) 123-4567',
-    email: 'info@fitgympro.com',
-    website: 'www.fitgympro.com',
-    description: 'Premium fitness center dedicated to helping you achieve your health and wellness goals.',
-    notifications: {
-      emailReminders: true,
-      smsReminders: false,
-      membershipExpiry: true,
-      paymentDue: true,
-    },
-  });
+  const [gymSettings, setGymSettings] = React.useState(savedSettings);
 
   const handleSaveSettings = () => {
-    // In a real app, this would save to backend
+    dispatch(updateSettings(gymSettings));
     toast({
       title: 'Settings Saved',
       description: 'Your gym settings have been updated successfully.',
