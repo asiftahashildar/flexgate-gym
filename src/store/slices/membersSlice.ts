@@ -1,3 +1,4 @@
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Member {
@@ -46,17 +47,45 @@ const initialState: MembersState = {
   sortOrder: 'asc',
 };
 
+// Helper function to calculate member status
+const calculateMemberStatus = (endDate: string): 'active' | 'expired' | 'expiring-soon' => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  const memberEndDate = new Date(endDate);
+  memberEndDate.setHours(0, 0, 0, 0);
+  
+  const timeDiff = memberEndDate.getTime() - today.getTime();
+  const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  
+  if (daysDiff < 0) {
+    return 'expired';
+  } else if (daysDiff <= 14) {
+    return 'expiring-soon';
+  } else {
+    return 'active';
+  }
+};
+
 const membersSlice = createSlice({
   name: 'members',
   initialState,
   reducers: {
     addMember: (state, action: PayloadAction<Member>) => {
-      state.members.push(action.payload);
+      const memberWithStatus = {
+        ...action.payload,
+        status: calculateMemberStatus(action.payload.plan.endDate)
+      };
+      state.members.push(memberWithStatus);
     },
     updateMember: (state, action: PayloadAction<Member>) => {
       const index = state.members.findIndex(member => member.id === action.payload.id);
       if (index !== -1) {
-        state.members[index] = action.payload;
+        const memberWithStatus = {
+          ...action.payload,
+          status: calculateMemberStatus(action.payload.plan.endDate)
+        };
+        state.members[index] = memberWithStatus;
       }
     },
     deleteMember: (state, action: PayloadAction<string>) => {
@@ -73,18 +102,8 @@ const membersSlice = createSlice({
       state.sortOrder = action.payload.sortOrder;
     },
     updateMemberStatus: (state) => {
-      const today = new Date();
-      const twoWeeksFromNow = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000);
-      
       state.members.forEach(member => {
-        const endDate = new Date(member.plan.endDate);
-        if (endDate < today) {
-          member.status = 'expired';
-        } else if (endDate <= twoWeeksFromNow) {
-          member.status = 'expiring-soon';
-        } else {
-          member.status = 'active';
-        }
+        member.status = calculateMemberStatus(member.plan.endDate);
       });
     },
   },

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FitnessCenter, Add, Edit, Delete, ToggleOn, ToggleOff } from '@mui/icons-material';
@@ -6,10 +7,12 @@ import { useAppSelector, useAppDispatch } from '@/hooks/redux';
 import { togglePlanStatus } from '@/store/slices/plansSlice';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { AddPlanModal } from '@/components/AddPlanModal';
 
 export const Plans: React.FC = () => {
   const dispatch = useAppDispatch();
   const plans = useAppSelector((state) => state.plans.plans);
+  const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
 
   const handleToggleStatus = (planId: string, currentStatus: boolean) => {
     dispatch(togglePlanStatus(planId));
@@ -26,7 +29,7 @@ export const Plans: React.FC = () => {
       case 'quarterly':
         return 'from-neon-orange to-orange-400';
       case 'yearly':
-        return 'from-neon-red to-red-400';
+        return 'from-blue-500 to-blue-400';
       default:
         return 'from-primary to-blue-400';
     }
@@ -53,7 +56,10 @@ export const Plans: React.FC = () => {
             </div>
           </div>
           
-          <Button className="btn-primary-glow">
+          <Button 
+            className="btn-primary-glow"
+            onClick={() => setIsAddModalOpen(true)}
+          >
             <Add className="w-4 h-4 mr-2" />
             Add Plan
           </Button>
@@ -182,13 +188,18 @@ export const Plans: React.FC = () => {
           </div>
           
           <div className="text-center p-4 bg-muted/50 rounded-lg">
-            <div className="text-2xl font-bold text-neon-red mb-1">
+            <div className="text-2xl font-bold text-blue-500 mb-1">
               ${(plans.reduce((sum, plan) => sum + (plan.isActive ? plan.price / plan.duration : 0), 0)).toFixed(2)}
             </div>
             <div className="text-sm text-muted-foreground">Avg Monthly Rate</div>
           </div>
         </div>
       </motion.div>
+
+      <AddPlanModal 
+        open={isAddModalOpen} 
+        onOpenChange={setIsAddModalOpen} 
+      />
     </div>
   );
 };

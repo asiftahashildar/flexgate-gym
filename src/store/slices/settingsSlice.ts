@@ -1,7 +1,9 @@
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface GymSettings {
   gymName: string;
+  adminName: string;
   address: string;
   phone: string;
   email: string;
@@ -22,6 +24,7 @@ interface SettingsState {
 const initialState: SettingsState = {
   settings: {
     gymName: 'FitGym Pro',
+    adminName: 'Admin User',
     address: '123 Fitness Street, Workout City',
     phone: '+1 (555) 123-4567',
     email: 'info@fitgympro.com',

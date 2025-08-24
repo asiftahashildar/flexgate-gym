@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { 
@@ -24,6 +25,10 @@ export const Settings: React.FC = () => {
   const savedSettings = useAppSelector((state) => state.settings.settings);
 
   const [gymSettings, setGymSettings] = React.useState(savedSettings);
+
+  React.useEffect(() => {
+    setGymSettings(savedSettings);
+  }, [savedSettings]);
 
   const handleSaveSettings = () => {
     dispatch(updateSettings(gymSettings));
@@ -98,6 +103,15 @@ export const Settings: React.FC = () => {
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <Label htmlFor="adminName" className="text-foreground font-medium">Admin Name</Label>
+            <Input
+              id="adminName"
+              value={gymSettings.adminName}
+              onChange={(e) => setGymSettings({...gymSettings, adminName: e.target.value})}
+            />
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="gymName" className="text-foreground font-medium">Gym Name</Label>
             <Input
