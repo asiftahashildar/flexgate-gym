@@ -36,14 +36,16 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<MainLayout><Dashboard /></MainLayout>} />
-                <Route path="/add-member" element={<MainLayout><AddMember /></MainLayout>} />
-                <Route path="/members" element={<MainLayout><Members /></MainLayout>} />
-                <Route path="/plans" element={<MainLayout><Plans /></MainLayout>} />
-                <Route path="/settings" element={<MainLayout><Settings /></MainLayout>} />
-                <Route path="*" element={<MainLayout><NotFound /></MainLayout>} />
-              </Routes>
+              <MainLayout>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/add-member" element={<AddMember />} />
+                  <Route path="/members" element={<Members />} />
+                  <Route path="/plans" element={<Plans />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </MainLayout>
             </BrowserRouter>
           </div>
         </TooltipProvider>
