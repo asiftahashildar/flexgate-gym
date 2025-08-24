@@ -1,14 +1,10 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+// This page is no longer used as the app has been restructured
+// Main content is now handled by Dashboard.tsx through the routing system
+
+import { Navigate } from 'react-router-dom';
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  return <Navigate to="/" replace />;
 };
 
 export default Index;
